@@ -1,0 +1,52 @@
+
+"Deploy the app to netlify"
+query deploy($netlifySiteName: String!, source DirectoryID="source") {
+    netlifyDeploy(
+        siteName: $netlifySiteName,
+        token: ????,
+        contents: ????,
+    ) {
+        url
+    }
+}
+
+"Build the frontend"
+query build {
+    yarn(runArgs["build"], source: "source")) {
+        id
+    }
+}
+
+"The frontend source code"
+query source {
+    host {
+        workdir {
+            id
+        }
+    }
+}
+
+"""
+Netlify API token loaded in a secret
+
+See [The Netlify docs](https://docs.netlify.com) to generate your token.
+"""
+query netlifyToken($plaintext: String!) {
+    host {
+        secretVariable(name: "NETLIFY_API_TOKEN") {
+            id
+        }
+    }
+}
+
+query netlify @extension {
+    git(address: "https://github.com/dagger/cloak") {
+        branch(name: "main") {
+            contents {
+                directory(path: "./examples/netlify") {
+                    id
+                }
+            }
+        }
+    }
+}
