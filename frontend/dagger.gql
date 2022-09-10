@@ -1,0 +1,31 @@
+query Extensions {
+  yarn: git(url: "ssh://git@github.com/dagger/cloak") {
+    branch(name: "main") {
+      tree {
+        directory(path: "examples/yarn") {
+          ID
+        }
+      }
+    }
+  }
+
+  netlify: git(url: "ssh://git@github.com/dagger/cloak") {
+    branch(name: "main") {
+      tree {
+        directory(path: "examples/netlify") {
+          ID
+        }
+      }
+    }
+  }
+}
+
+query SDK {
+    universe {
+        sdk {
+            go {
+                id
+            }
+        }
+    }
+}
